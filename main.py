@@ -1,35 +1,6 @@
 from random import randint
 
 
-def fonction_menu():
-    nbrs_bombes_default = 4
-    nbrs_lignes_default = 5
-    nbrs_colones_default = 4
-    default = True
-    nbrs_bombes = 0
-    nbrs_lignes = 0
-    nbrs_colones = 0
-    print("Bienvenue dans le Démineur !\n1. Nouvelle partie\n2. Paramètre\n3. Profil ")
-    choix_menu = int(input("Entrer 1, 2 ou 3"))
-
-    if choix_menu == 1 and default:
-        fonction_jeu(nbrs_bombes_default, nbrs_colones_default, nbrs_lignes_default)
-    if choix_menu == 1 and not default:
-        fonction_jeu(nbrs_bombes, nbrs_colones, nbrs_lignes)
-
-    if choix_menu == 2:
-        print("Paramètre :\n   1.Modifier le nombre de bombe\n   2.Modifier les dimentions de la grille")
-        choix_para = input()
-        if choix_para == 1:
-            nbrs_bombes = input("Nouveau nombre de bombes :")
-        if choix_para == 2:
-            nbrs_lignes = input("Nombre de lignes : ")
-            nbrs_colones = input("Nombre de colones : ")
-
-    if choix_menu == 3:
-        print("Profil :\n")
-
-
 def fonction_init_grille(nbrs_bombes, nbrs_colones, nbrs_lignes):
     grille = [[0 for a in range(nbrs_lignes)] for b in range(nbrs_colones)]
     bombes_pose = 0
@@ -76,7 +47,10 @@ def fonction_affichage_grille(grille, nbrs_lignes):
     print(texte_a_afficher)
 
 
-def fonction_jeu(nbrs_bombes, nbrs_colones, nbrs_lignes):
+def main():
+    nbrs_bombes = 9
+    nbrs_colones = 6
+    nbrs_lignes = 6
     grille_complette = fonction_init_grille(nbrs_bombes, nbrs_colones, nbrs_lignes)
     grille_a_completer = [["." for a in range(nbrs_lignes)] for b in range(nbrs_colones)]
     partie_finie = False
@@ -89,8 +63,10 @@ def fonction_jeu(nbrs_bombes, nbrs_colones, nbrs_lignes):
     fonction_affichage_grille(grille_a_completer, nbrs_lignes)
 
     while not partie_finie:
+        choix_ligne = ""
+        choix_colone = ""
         print("Tour " + str(nbrs_tours))
-        choix_action = input("Voullez vous creuser(c),\n déminer/placer un drapeaux(d),\n ou vérifier les bombes déjà identifiée(v)")
+        choix_action = input("Voulez vous creuser(c),\nDéminer/placer un drapeaux(d),\nOu vérifier les bombes déjà identifiée(v)\n")
         if choix_action in ['c', 'C', 'd', 'D']:
             choix_ligne = int(input("Choisiser une ligne (1 chiffre seulement) : ")) - 1
             choix_colone = int(input("Choisiser une colone (1 chiffre seulement) : ")) - 1
@@ -139,4 +115,5 @@ def fonction_jeu(nbrs_bombes, nbrs_colones, nbrs_lignes):
         fonction_affichage_grille(grille_a_completer, nbrs_lignes)
 
 
-fonction_menu()
+if __name__ == "__main__":
+    main()
