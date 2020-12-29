@@ -29,8 +29,8 @@ def calcul_nbrs_bombes_alentours(grille, nbrs_colones, nbrs_lignes, num_colones,
     while i < 3:
         u = 0
         while u < 3:
-            if num_lignes+i < nbrs_lignes-1 and num_colones+u < nbrs_colones-1:
-                a = grille[num_lignes+i][num_colones+u]
+            if num_lignes + i < nbrs_lignes - 1 and num_colones + u < nbrs_colones - 1:
+                a = grille[num_lignes + i][num_colones + u]
                 if a == 9:
                     nbrs_bombes_alentours += 1
             u += 1
@@ -41,7 +41,7 @@ def calcul_nbrs_bombes_alentours(grille, nbrs_colones, nbrs_lignes, num_colones,
 def fonction_affichage_grille(grille, nbrs_lignes):
     texte_a_afficher = ''
     i = 0
-    while i < nbrs_lignes-1:
+    while i < nbrs_lignes - 1:
         texte_a_afficher += str(grille[i]) + '\n'
         i += 1
     print(texte_a_afficher)
@@ -51,26 +51,35 @@ def main():
     nbrs_bombes = 9
     nbrs_colones = 6
     nbrs_lignes = 6
-    grille_complette = fonction_init_grille(nbrs_bombes, nbrs_colones, nbrs_lignes)
-    grille_a_completer = [["." for a in range(nbrs_lignes)] for b in range(nbrs_colones)]
-    partie_finie = False
     nbrs_tours = 1
     bombes_restantes = nbrs_bombes
     bombes_marquer = 0
+    grille_complette = fonction_init_grille(nbrs_bombes, nbrs_colones, nbrs_lignes)
+    grille_a_completer = [["." for a in range(nbrs_lignes)] for b in range(nbrs_colones)]
+    partie_finie = False
     verifier = False
 
     fonction_affichage_grille(grille_complette, nbrs_lignes)
     fonction_affichage_grille(grille_a_completer, nbrs_lignes)
 
     while not partie_finie:
-        choix_ligne = ""
-        choix_colone = ""
+        choix_ligne = 0
+        choix_colone = 0
         print("Tour " + str(nbrs_tours))
-        choix_action = input("Voulez vous creuser(c),\nDéminer/placer un drapeaux(d),\nOu vérifier les bombes déjà identifiée(v)\n")
+        fonction_affichage_grille(grille_a_completer, nbrs_lignes)
+        choix_action = input(
+            "Voulez vous creuser(c),\nDéminer/placer un drapeaux(d),\nVérifier les bombes déjà identifiée(v),\nOu quitter la partie(q)\n")
+
+        if choix_action in ['q', 'q']:
+            partie_finie = True
+            print("Vous avez abondonné.\nIl vous restait a trouver ", bombes_restantes, " mines sur ", nbrs_bombes)
+
         if choix_action in ['c', 'C', 'd', 'D']:
             choix_ligne = int(input("Choisiser une ligne (1 chiffre seulement) : ")) - 1
             choix_colone = int(input("Choisiser une colone (1 chiffre seulement) : ")) - 1
+
         if choix_ligne < nbrs_lignes and choix_colone < nbrs_colones and not verifier and choix_action in ['c', 'C', 'd', 'D']:
+
             if choix_action in ['c', 'C']:
                 test = fonction_test_bombe(grille_complette, choix_colone, choix_ligne)
                 if not test and bombes_restantes != 0:
@@ -87,12 +96,11 @@ def main():
                 grille_a_completer[choix_ligne][choix_colone] = '*'
                 bombes_marquer += 1
                 if bombes_marquer == bombes_restantes:
-                    print("Attention vous n'avez plus de drapeau a poser,\n vérifier la grille pour continuer la partie")
+                    print(
+                        "Attention vous n'avez plus de drapeau a poser,\n vérifier la grille pour continuer la partie")
                     verifier = True
-
-            if choix_action in ['v', 'V']:
-                print("coucou c'est pas encore fait")
             nbrs_tours += 1
+
         if choix_action in ['v', 'V']:
             y = 0
             nbrs_test = 0
@@ -109,10 +117,10 @@ def main():
                 if reusite == nbrs_bombes:
                     print(" Vous aviez bien trouvé toutes les bombes ")
                 if reusite > 0 and reusite != nbrs_bombes:
-                    print(" Vous aviez bien identifier ", reusite,'sur ', nbrs_bombes)
-        else:
+                    print(" Vous aviez bien identifier ", reusite, 'sur ', nbrs_bombes)
+
+        if choix_action not in ['v', 'V', 'c', 'C', 'd', 'D', 'q', 'Q']:
             print("Erreur : Veuillez recommencer.")
-        fonction_affichage_grille(grille_a_completer, nbrs_lignes)
 
 
 if __name__ == "__main__":
