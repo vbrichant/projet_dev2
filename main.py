@@ -89,7 +89,7 @@ def main():
                     print("Vous avez gagné!")
                     partie_finie = True
                 if test:
-                    print("Game Over")
+                    print("Game Over\nVous avez creusé sur une bombe")
                     partie_finie = True
 
             if choix_action in ['d', 'D']:
@@ -101,7 +101,7 @@ def main():
                     verifier = True
             nbrs_tours += 1
 
-        if choix_action in ['v', 'V']:
+        if choix_action in ['v', 'V'] or verifier:
             y = 0
             nbrs_test = 0
             reusite = 0
@@ -114,10 +114,11 @@ def main():
                         reusite += 1
                     t += 1
                 y += 1
-                if reusite == nbrs_bombes:
-                    print(" Vous aviez bien trouvé toutes les bombes ")
-                if reusite > 0 and reusite != nbrs_bombes:
-                    print(" Vous aviez bien identifier ", reusite, 'sur ', nbrs_bombes)
+            if reusite == nbrs_bombes:
+                print(" Vous aviez bien trouvé toutes les bombes ")
+            if reusite > 0 and reusite != nbrs_bombes:
+                print(" Vous aviez bien identifier ", reusite, 'sur ', nbrs_bombes)
+            partie_finie = True
 
         if choix_action not in ['v', 'V', 'c', 'C', 'd', 'D', 'q', 'Q']:
             print("Erreur : Veuillez recommencer.")
